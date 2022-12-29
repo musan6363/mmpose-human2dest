@@ -5,6 +5,7 @@ annotation
 mmpose/
 *.code-workspace
 ped_pose/
+ped_pose_render/
 
 # Singularity
 *.sif
