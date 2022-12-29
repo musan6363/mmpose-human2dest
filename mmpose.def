@@ -43,7 +43,7 @@ From: nvidia/cuda:11.8.0-devel-ubuntu22.04
 	# mmpose
 	pip install -U openmim
 	pip install cython xtcocotools
-	pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu118/torch1.11.0/index.html
+	pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu117/torch1.13/index.html
 	pip install mmpose mmdet
 
 	# user
