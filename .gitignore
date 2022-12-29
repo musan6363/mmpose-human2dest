@@ -1,7 +1,9 @@
 # User defined
 data
 pedestrian
+annotation
 mmpose/
+*.code-workspace
 
 # Singularity
 *.sif

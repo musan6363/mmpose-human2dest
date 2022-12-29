@@ -1,0 +1,50 @@
+Bootstrap: docker
+From: nvidia/cuda:11.8.0-devel-ubuntu22.04
+
+%environment
+	export CUDA_PATH=/usr/local/cuda
+	export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+
+%post
+	perl -p -i.bak -e 's%(deb(?:-src|)\s+)https?://(?!archive\.canonical\.com|security\.ubuntu\.com)[^\s]+%$1http://ftp.riken.jp/Linux/ubuntu/%' /etc/apt/sources.list
+
+	export DEBIAN_FRONTEND=noninteractive
+	export TZ=Asia/Tokyo
+	export CUDA_PATH=/usr/local/cuda
+	export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+
+	apt -y update
+	apt -y dist-upgrade
+	apt -y install wget git tree build-essential
+	
+	# Python
+	apt-key adv --keyserver keyserver.ubuntu.com --recv f23c5a6cf475977595c89f51ba6932366a755776
+	echo "deb http://ppa.launchpad.net/deadsnakes/ppa/ubuntu  jammy main " > /etc/apt/sources.list.d/python.list
+	echo "deb-src http://ppa.launchpad.net/deadsnakes/ppa/ubuntu  jammy main" >> /etc/apt/sources.list.d/python.list
+	apt -y update
+	apt -y install python3.9-dev
+	apt -y install python3.9-distutils
+	cd /usr/bin
+	ln -s python3.9 python3
+	wget https://bootstrap.pypa.io/get-pip.py
+	python3 get-pip.py
+	rm get-pip.py
+
+	apt -y install libpng-dev libjpeg-dev libtiff-dev
+	apt -y install ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 libgl1-mesa-glx libxrender1
+
+	pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+	pip install numpy scikit-learn scipy tqdm
+
+	# OpenCV for Python
+	pip install opencv-python-headless
+	pip install opencv-contrib-python-headless
+
+	# mmpose
+	pip install -U openmim
+	pip install cython xtcocotools
+	pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu117/torch1.13/index.html
+	pip install mmpose mmdet
+
+	# user
+	pip install ndjson jupyterlab
