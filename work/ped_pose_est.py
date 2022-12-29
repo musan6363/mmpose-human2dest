@@ -30,8 +30,10 @@ def loop_ped(pose: Pose, dataset_name: str, version_name: str, save_dir: str):
         for token, ann in peds.items():
             formatted_peds.append(Pedestrian(token, ann['bbox']))
         pose_results = pose.get(img_path, formatted_peds)
-        output_path = save_dir+'/'+record_token+'.json'
-        pose.export(pose_results, output_path)
+        # output_path = save_dir+'/'+record_token+'.json'
+        output_path = save_dir+'/'+record_token+'.png'
+        # pose.export(pose_results, output_path)
+        pose.render(img_path, pose_results, output_path)
     print(str(len(not_found_list))+"json files not found")
     print(not_found_list)
 
@@ -45,7 +47,7 @@ def main():
         dataset_name = osp.basename(dataset)
         for version in glob(dataset+'/*'):
             version_name = osp.basename(version)
-            loop_ped(pose, dataset_name, version_name, '../ped_pose/'+dataset_name+'/'+version_name)
+            loop_ped(pose, dataset_name, version_name, '../ped_pose_render/'+dataset_name+'/'+version_name)
 
 if __name__ == "__main__":
     main()
