@@ -44,12 +44,6 @@ class Pose:
         self.pose_model = init_pose_model(self.pose_config, self.pose_checkpoint)
 
     def get(self, img_path: str, peds: list) -> list:
-        # img_path = '../pedestrian/nuimages_ped/v1.0-train/img/00a14431d93f4f32adf683e139dfdf94.jpg'
-        # bboxes = [
-        #     [1318, 447, 1396, 672, 0.9],
-        #     [1416, 440, 1503, 703, 0.5],
-        #     [1399, 453, 1520, 684, 0.3]
-        # ]
         person_results = []
         ped: Pedestrian
         for ped in peds:
@@ -59,7 +53,7 @@ class Pose:
             person_results.append(person)
 
         # inference pose
-        pose_results, returned_outputs = inference_top_down_pose_model(
+        pose_results, _ = inference_top_down_pose_model(
             self.pose_model,
             img_path,
             person_results,
