@@ -4,6 +4,7 @@ pedestrian
 annotation
 mmpose/
 *.code-workspace
+ped_pose/
 
 # Singularity
 *.sif
