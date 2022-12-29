@@ -73,7 +73,7 @@ class Pose:
             dst[pose_result['token']] = tmp
         export_json(dst, output_path)
 
-    def render(self, img_path: str, pose_results: list) -> None:
+    def render(self, img_path: str, pose_results: list, save_path: str) -> None:
         # show pose estimation results
         vis_result = vis_pose_result(
             self.pose_model,
@@ -83,7 +83,7 @@ class Pose:
             show=False)
         # reduce image size
         vis_result = cv2.resize(vis_result, dsize=None, fx=0.5, fy=0.5)
-        cv2.imwrite('output.png', vis_result)
+        cv2.imwrite(save_path, vis_result)
 
 
 def main():
