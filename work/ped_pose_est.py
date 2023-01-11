@@ -32,8 +32,8 @@ def loop_ped(pose: Pose, dataset_name: str, version_name: str, save_dir: str):
         pose_results = pose.get(img_path, formatted_peds)
         output_path = save_dir+'/'+record_token+'.json'
         pose.export(pose_results, output_path)
-        # output_path = save_dir+'/'+record_token+'.png'
-        # pose.render(img_path, pose_results, output_path)
+        output_path = save_dir+'/'+record_token+'.png'
+        pose.render(img_path, pose_results, output_path)
     print(str(len(not_found_list))+"json files not found")
     print(not_found_list)
 
