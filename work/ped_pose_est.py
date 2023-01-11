@@ -12,7 +12,9 @@ def read_json(json_path: str) -> list:
     return _data
 
 def loop_ped(pose: Pose, dataset_name: str, version_name: str, save_dir: str):
+    save_dir_render = save_dir.replace('ped_pose', 'ped_pose_render')
     os.makedirs(save_dir, exist_ok=True)
+    os.makedirs(save_dir_render, exist_ok=True)
     not_found_list = []
     for img_path in tqdm(glob('../pedestrian/'+dataset_name+'/'+version_name+'/img/*'), dataset_name+'/'+version_name+' : '):
         _type = img_path[-3:]
@@ -32,7 +34,7 @@ def loop_ped(pose: Pose, dataset_name: str, version_name: str, save_dir: str):
         pose_results = pose.get(img_path, formatted_peds)
         output_path = save_dir+'/'+record_token+'.json'
         pose.export(pose_results, output_path)
-        output_path = save_dir+'/'+record_token+'.png'
+        output_path = save_dir_render+'/'+record_token+'.png'
         pose.render(img_path, pose_results, output_path)
     print(str(len(not_found_list))+"json files not found")
     print(not_found_list)
@@ -47,7 +49,7 @@ def main():
         dataset_name = osp.basename(dataset)
         for version in glob(dataset+'/*'):
             version_name = osp.basename(version)
-            loop_ped(pose, dataset_name, version_name, '../ped_pose_render/'+dataset_name+'/'+version_name)
+            loop_ped(pose, dataset_name, version_name, '../ped_pose/'+dataset_name+'/'+version_name)
 
 if __name__ == "__main__":
     main()
