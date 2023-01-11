@@ -76,6 +76,11 @@ class Pose:
             tmp = {}
             tmp['bbox'] = pose_result['bbox'].tolist()[:-1]
             tmp['pose'] = pose_result['keypoints'].tolist()
+            other_ann = {}
+            for k, v in pose_result.items():
+                if k!= 'token' and k != 'bbox' and k != 'keypoints':
+                    other_ann[k] = v
+            tmp.update(other_ann)
             dst[pose_result['token']] = tmp
         export_json(dst, output_path)
 
