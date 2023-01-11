@@ -68,7 +68,7 @@ class Pose:
         pose_result: dict
         for pose_result in pose_results:
             tmp = {}
-            tmp['bbox'] = pose_result['bbox'].tolist()
+            tmp['bbox'] = pose_result['bbox'].tolist()[:-1]
             tmp['pose'] = pose_result['keypoints'].tolist()
             dst[pose_result['token']] = tmp
         export_json(dst, output_path)
