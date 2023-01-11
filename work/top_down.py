@@ -27,9 +27,14 @@ def export_json(dst: dict, path: str) -> None:
 
 
 class Pedestrian:
-    def __init__(self, token: str, bbox: list) -> None:
+    def __init__(self, token: str, ann: dict) -> None:
         self.token = token
-        self.bbox = bbox
+        self.bbox = ann['bbox']
+        self.other_ann = {}
+        for k, v in ann.items():
+            # looking, loc(画像外を見ている場合の座標), gto_bbox, gto_center, gto_categoryを追加
+            if k != "bbox":
+                self.other_ann[k] = v
     
     def get_bbox_array(self, dummy_acc: float = 1.0) -> np.ndarray:
         include_dummy_acc = self.bbox.copy()
@@ -50,6 +55,7 @@ class Pose:
             person = {}
             person['token'] = ped.token
             person['bbox'] = ped.get_bbox_array()
+            person.update(ped.other_ann)
             person_results.append(person)
 
         # inference pose

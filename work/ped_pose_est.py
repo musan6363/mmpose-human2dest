@@ -28,12 +28,12 @@ def loop_ped(pose: Pose, dataset_name: str, version_name: str, save_dir: str):
         peds = read_json(json_path)
         formatted_peds = []
         for token, ann in peds.items():
-            formatted_peds.append(Pedestrian(token, ann['bbox']))
+            formatted_peds.append(Pedestrian(token, ann))
         pose_results = pose.get(img_path, formatted_peds)
-        # output_path = save_dir+'/'+record_token+'.json'
-        output_path = save_dir+'/'+record_token+'.png'
-        # pose.export(pose_results, output_path)
-        pose.render(img_path, pose_results, output_path)
+        output_path = save_dir+'/'+record_token+'.json'
+        pose.export(pose_results, output_path)
+        # output_path = save_dir+'/'+record_token+'.png'
+        # pose.render(img_path, pose_results, output_path)
     print(str(len(not_found_list))+"json files not found")
     print(not_found_list)
 
